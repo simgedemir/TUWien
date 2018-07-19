@@ -1,3 +1,7 @@
+##June, 2018
+## Simge Demir
+## adding not ab() atoms to the .lp file
+
 import re
 import sys
 
