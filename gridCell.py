@@ -143,8 +143,8 @@ class Window:
     for a in tmp1:
       x=a.split(',')
       if x[2]!=prev:
-	      count=count+5 #the distance between two grids are 1 cell, the distance between the same cell in successive grids is 5
-	      self.items.append( self.canvas1.create_rectangle( * fieldRect(int(x[1])+count,int(x[0])), fill=WALL_FILL))   
+        count=count+5 #the distance between two grids are 1 cell, the distance between the same cell in successive grids is 5
+        self.items.append( self.canvas1.create_rectangle( * fieldRect(int(x[1])+count,int(x[0])), fill=WALL_FILL))   
       else:
         self.items.append( self.canvas1.create_rectangle( * fieldRect(int(x[1])+count,int(x[0])), fill=WALL_FILL)) 
       prev=x[2]
@@ -161,8 +161,8 @@ class Window:
       
       #for determining the way robot travels  
       if x[-2]=='east':
-      	visits=count
-      	for i in range(0,len(tmp2)+1-int(count/5)): #loop for all grids 
+        visits=count
+        for i in range(0,len(tmp2)+1-int(count/5)): #loop for all grids 
           for j in range(1,int(x[3])-int(x[1])): #the loop for the way of the robot in a grid
             self.items.append( self.canvas1.create_rectangle( * fieldRect(int(x[1])+j+visits,int(x[0])), fill='#FFF'))
           if (i!=len(tmp2)-int(count/5)): #checking if it is the last grid or not 

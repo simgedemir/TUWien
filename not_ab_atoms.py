@@ -1,14 +1,12 @@
-##June, 2018
 ## Simge Demir
-## adding not ab() atoms to the .lp file
+## June, 2018
+## program for adding no ab() atoms to the constraints 
 
 import re
 import sys
 
-
-
 def regex(atom,searchVariable):
-	return re.findall(atom+r"\((\S+)\)",searchVariable)
+	return re.findall(atom+r"\((\w+)\)",searchVariable)
 
 def removeConstraint():
 	#searches the constraints and ignores the one that does not include given atoms
@@ -17,17 +15,23 @@ def removeConstraint():
 		for x in range (2,len(sys.argv)):
 			temp=regex(sys.argv[x],r1[i])
 			if len(temp)==0:
+				print(r1[i] + " does not include the atom: "+ sys.argv[x] +"\n")
 				removal.append(r1[i])
 				break
+			elif r1[i].find("}", r1[i].find(sys.argv[x])) != -1:
+				print(r1[i] + " include '}' at the end of the line \n")
+				removal.append(r1[i])
+				break
+
 	for element in range(0,len(removal)):
 		r1.remove(removal[element])
-
+		
 def createNewline(i):
 	newLine=""
 	newLine+="\n{ab(r"+str(i)
 	for y in range(0,len(r2)):
 		newLine+="," + r2[y]
-		newLine+=(") : ")
+	newLine+=(") : ")
 
 	for x in range (2,len(sys.argv)):
 		temp=regex(sys.argv[x],r1[i])
@@ -51,8 +55,8 @@ def createNewline(i):
 					newLine+=","+ sys.argv[x]
 					newLine+= "("+ r2[x-2+j] + ")"
 
-	newLine+="}"
-
+	newLine+="}."
+	#print (newLine)
 	newLine2=""
 	newLine2+="\n:~ ab(r" + str(i)
 	for y in range(0,len(r2)):
@@ -85,7 +89,7 @@ else:
 	removeConstraint() ## removing the constraint if it does not include the given atom
 
 	if len(r1)==0: ##if there is no constraint with the given atoms
-		print("There is no condition including this/these atoms")
+		print("THERE IS NO CONSTRAINT WITH THE GIVEN ATOMS, OUTPUT FILE IS NOT CREATED")
 		sys.exit()
 
 	for i in range(0,len(r1)):
@@ -115,8 +119,8 @@ else:
 				#:~ ab(r#,T,T1). [1,T,T1,r#]
 				lines.append(newline2)		
 
-	lines.append("\n#show ab/2\n")
-	lines.append("#show ab/3\n")
+	lines.append("\n#show ab/2.\n")
+	lines.append("#show ab/3.\n")
 	
 	## creating the output file and writing the last version of the text 
 	out=open('output.lp','w')
